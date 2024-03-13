@@ -1,5 +1,5 @@
 const express = require("express");
-const { PORT } = require("./config.js");
+const { PORT } = require("./config/config.js");
 const authRoutes = require("./routes/authRoutes.js"); 
 
 const app = express();
