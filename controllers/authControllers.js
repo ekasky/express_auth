@@ -66,7 +66,7 @@ async function localRegisterController(req, res) {
 
     }
 
-    // Ensure passwors is strong
+    // Ensure password is strong
     if(!validator.isStrongPassword(password)) {
 
         response.errors.password = "Password to weak";
@@ -98,24 +98,31 @@ async function localRegisterController(req, res) {
 
     }
 
+    try{
 
-    // Hash the password
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
 
-    // Create the user in the db
-    const newUser = user.create({
-        email,
-        username,
-        password: hash,
-        first_name,
-        last_name,
-        gender
-    });
-    
-    response.success = true;
+        // Create the user in the db
+        const newUser = await user.create({
+            email,
+            username,
+            password: hash,
+            first_name,
+            last_name,
+            gender
+        });
 
-    return res.status(201).json(response);
+        response.success = true;
+
+        return res.status(201).json(response);
+        
+    }
+    catch(error) {
+        response.errors.server = "Internal Server Error";
+        return res.status(500).json(response);
+    }
 
 }
 
