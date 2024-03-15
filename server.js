@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { PORT } = require("./config/config.js");
 const authRoutes = require("./routes/authRoutes.js");
 const protectedRoutes = require("./routes/protectedRoutes.js");
@@ -8,6 +9,10 @@ const localStrategy = require("./strategies/localStrategy.js");
 const user = require("./models/User.js");
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}));
 app.use(express.json());
 app.use(expressSession);
 app.use(passport.initialize());
