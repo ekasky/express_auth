@@ -162,4 +162,54 @@ function localLoginController(req, res, next) {
 
 }
 
-module.exports = {localRegisterController, localLoginController};
+function logoutController(req, res, next) {
+
+    // Check if the user is logged in
+    if(!req.isAuthenticated || !req.isAuthenticated()) {
+
+        return res.status(200).json({
+            message: "No user logged in"
+        });
+
+    }
+
+    // Logout user
+    req.logout( (error) => {
+
+        if(error) {
+
+            return next(error);
+
+        }
+
+        if(req.session) {
+
+            req.session.destroy((error) => {
+
+                if(error) {
+                    return res.status(500).json({
+                        message: "Failed to logout"
+                    });
+                }
+
+                res.clearCookie("connect.sid");
+                return res.status(200).json({
+                    message: "Logout Successful"
+                });
+
+            });
+
+        }
+        else {
+
+            res.status(200).json({
+                message: "Logout successful, but no session found"
+            });
+
+        }
+
+    } );
+
+}
+
+module.exports = {localRegisterController, localLoginController, logoutController};

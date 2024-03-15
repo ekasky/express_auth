@@ -7,7 +7,7 @@ module.exports = {
     DB_USER : process.env.DB_USER, 
     DB_PASS : process.env.DB_PASS, 
     DB_NAME : process.env.DB_NAME, 
-    TIME : 60000 * 60, 
+    TIME : 30000, 
     SESSION_SECRET : process.env.SESSION_SECRET,
 
 };
