@@ -212,4 +212,27 @@ function logoutController(req, res, next) {
 
 }
 
-module.exports = {localRegisterController, localLoginController, logoutController};
+function isAuthenticatedController(req, res) {
+
+    if(req.isAuthenticated()) {
+
+        res.status(200).json({
+            
+            isAuthenticated: true
+
+        });
+
+    }
+    else {
+
+        res.status(401).json({
+
+            isAuthenticated: false
+
+        });
+
+    }
+
+}
+
+module.exports = {localRegisterController, localLoginController, logoutController, isAuthenticatedController};
