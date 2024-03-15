@@ -1,6 +1,7 @@
 const express = require("express");
 const { PORT } = require("./config/config.js");
 const authRoutes = require("./routes/authRoutes.js");
+const protectedRoutes = require("./routes/protectedRoutes.js");
 const expressSession = require("./config/expressSession.js"); 
 const passport = require("passport");
 const localStrategy = require("./strategies/localStrategy.js"); 
@@ -28,6 +29,7 @@ passport.deserializeUser((id, done) => {
 
 
 app.use("/auth", authRoutes);
+app.use("/protected", protectedRoutes);
 
 app.listen(PORT, () => {
     console.log(`Listening on Port ${PORT}`);
