@@ -52,6 +52,12 @@ async function localRegisterController(req, res) {
 
     }
 
+    if(Object.keys(response.errors).length !== 0) {
+
+        return res.status(400).json(response);
+
+    }
+
     if(!["male", "female", "other"].includes(gender)) {
 
         response.errors.gender = "Invalid Gender";
