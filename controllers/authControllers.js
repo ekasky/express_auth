@@ -1,6 +1,7 @@
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 const user = require("../models/User");
+const passport = require("passport");
 
 async function localRegisterController(req, res) {
 
@@ -117,7 +118,7 @@ async function localRegisterController(req, res) {
         response.success = true;
 
         return res.status(201).json(response);
-        
+
     }
     catch(error) {
         response.errors.server = "Internal Server Error";
@@ -126,4 +127,39 @@ async function localRegisterController(req, res) {
 
 }
 
-module.exports = {localRegisterController};
+function localLoginController(req, res, next) {
+
+    passport.authenticate("local", (error, user, info) => {
+
+        if(error) {
+            return res.status(500).json({
+                message: "Internal Server Error"
+            });
+        }
+
+        if(!user) {
+            return res.status(401).json({
+                info
+            });
+        }
+
+        req.logIn(user, (error) => {
+
+            if(error) {
+                return res.status(500).json({
+                    message: "Internal Server Error"
+                });
+            }
+
+            res.status(200).json({
+                message: "Login Successful",
+                user
+            });
+
+        });
+
+    })(req, res, next);
+
+}
+
+module.exports = {localRegisterController, localLoginController};

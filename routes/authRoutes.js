@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-const { localRegisterController } = require("../controllers/authControllers");
+const { localRegisterController, localLoginController } = require("../controllers/authControllers");
 
 router.get("/test", (req, res) => res.status(200).json({message: "This is a test route"}));
 
 router.post("/local/register", localRegisterController);
+router.post("/local/login", localLoginController);
 
 module.exports = router;
